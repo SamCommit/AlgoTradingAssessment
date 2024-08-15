@@ -59,7 +59,7 @@ public class Main {
         System.out.println("Order book after adding order9 (Buy order at R99 for 25 units):");
         System.out.println(orderBook);
         
-        // Change the quantity and price of the second order (order3)
+        // Change the quantity and price of the third order (order3)
         orderBook.modifyOrder(order3.getId(), 30, 99.0);
 
         // Print the order book after modification, order3 should now have a lower priority than order9

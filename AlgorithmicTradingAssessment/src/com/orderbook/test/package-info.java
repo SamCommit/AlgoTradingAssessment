@@ -3,8 +3,8 @@
  * The functions in the Order class are implicitly tested in this class
  * <p>
  * This package includes tests for all order book logic of adding, modifying, and removing orders as well as modification priority shifting:
- * - {@link test.com.orderbook.OrderBookTest} is a class that implements the tests.
+ * - {@link com.orderbook.test.OrderBookTest} is a class that implements the tests.
  * </p>
  */
-package test.com.orderbook;
+package com.orderbook.test;
 

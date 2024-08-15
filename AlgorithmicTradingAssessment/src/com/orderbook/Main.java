@@ -3,7 +3,7 @@ package com.orderbook;
 import com.orderbook.model.Order;
 import com.orderbook.model.OrderSide;
 import com.orderbook.service.OrderBook;
-import test.com.orderbook.OrderBookTest;
+import com.orderbook.test.OrderBookTest;
 
 /**
  * Main class to test the functionality of the OrderBook Class and its dependencies
@@ -23,6 +23,8 @@ public class Main {
         Order order6 = new Order(OrderSide.SELL, 103.0, 12);  // Sell order at R103 for 12 units
         Order order7 = new Order(OrderSide.BUY, 99.3, 29);    // Buy order at R99.3 for 29 units
         Order order8 = new Order(OrderSide.SELL, 101.2, 14);  // Sell order at R101.2 for 14 units
+        Order order9 = new Order(OrderSide.BUY, 99, 12);      // Buy order at R99 for 12 units
+        Order order10 = new Order(OrderSide.SELL, 100.8, 50); // Sell order at R100.8 for 50 units
 
         // Add the orders to the order book
         orderBook.addOrder(order1);
@@ -33,6 +35,8 @@ public class Main {
         orderBook.addOrder(order6);
         orderBook.addOrder(order7);
         orderBook.addOrder(order8);
+        orderBook.addOrder(order9);
+        orderBook.addOrder(order10);
         
         // Run the add orders test
         OrderBookTest.testAddOrder(orderBook);
@@ -63,11 +67,11 @@ public class Main {
         System.out.println(orderBook);
 
         // Add another order and demonstrate that the priority is lower than the other R99 order 
-        Order order9 = new Order(OrderSide.BUY, 99.0, 25);
-        orderBook.addOrder(order9);
+        Order order11 = new Order(OrderSide.BUY, 99.0, 25);
+        orderBook.addOrder(order11);
         
         // Print the order book after adding a new order
-        System.out.println("Order book after adding order9 (Buy order at R99 for 25 units):");
+        System.out.println("Order book after adding order11 (Buy order at R99 for 25 units):");
         System.out.println(orderBook);
         
         // Run the order priority test

@@ -40,7 +40,6 @@ public class OrderBookTest {
             System.out.println("Modify order test FAILED");
         }
     }
-
     
     /**
      * This function validates whether the order has been correctly deleted or not.

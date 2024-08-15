@@ -31,7 +31,7 @@ public class Order {
 	/**
 	 * Getters and setters for the respective fields above.
 	 * Modifying price or quantity is allowed, but in either case the timestamp will be updated.
-	 * This updated timestamp resets the priority enforces order book integrity.
+	 * This updated timestamp resets the orders' priority (to lowest) and enforces order book integrity.
 	 */
 	public String getId() {
 		return id;
@@ -65,14 +65,11 @@ public class Order {
 	
 	@Override
 	public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", side=" + side +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", timestamp=" + timestamp +
-                '}';
-    }
+	    return String.format(
+	        "Order{id='%s', side=%s, price=%.2f, quantity=%.2f, timestamp=%d}",
+	        id, side, price, quantity, timestamp
+	    );
+	}
 }
 
 

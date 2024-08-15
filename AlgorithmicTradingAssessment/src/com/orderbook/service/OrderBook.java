@@ -67,7 +67,8 @@ public class OrderBook {
 	 * 1. Loop through buy and sell order collections
 	 * 2. Loop through each price level
 	 * 3. Use the iterator to safely remove the element (avoiding ConcurrentModificationException)
-	 * 4. Return the order if it was successfully deleted or null if it wasn't
+	 * 4. If the price level has no more orders, remove that price level from the map
+	 * 5. Return the order if it was successfully deleted or null if it wasn't
 	 * 
 	 * This deleteOrder method is O(n) complexity because each orderId needs to be checked as it's a UUID
 	 * 
@@ -75,17 +76,23 @@ public class OrderBook {
 	 * @return
 	 */
 	public Order deleteOrder(String orderId) {
-		for(Map<Double, LinkedList<Order>> orders: Arrays.asList(buyOrders, sellOrders)) { // Loop through both collections of orders 
-			for(LinkedList<Order> orderList: orders.values()) { // Loop through each price level
-				for(Iterator<Order> iterator = orderList.iterator(); iterator.hasNext(); ) { // Use the iterator to safely remove the element while iterating
-					Order order = iterator.next();
-					if(order.getId().equals(orderId)) { // Check if the order Id matches the order Id in question
-						iterator.remove(); // Remove it if there is a match
-						return order; // Return the order if it was successfully deleted to validate its deletion
-					}
-				}
-			}
-		}
+        for (Map<Double, LinkedList<Order>> orders : Arrays.asList(buyOrders, sellOrders)) {
+            for (Iterator<Map.Entry<Double, LinkedList<Order>>> priceLevelIterator = orders.entrySet().iterator(); priceLevelIterator.hasNext(); ) {
+                Map.Entry<Double, LinkedList<Order>> priceLevel = priceLevelIterator.next();
+                LinkedList<Order> orderList = priceLevel.getValue();    
+                for (Iterator<Order> orderIterator = orderList.iterator(); orderIterator.hasNext(); ) {
+                    Order order = orderIterator.next();
+                    if (order.getId().equals(orderId)) {
+                        orderIterator.remove(); // Remove the order from the list
+                        // If the list is now empty, remove the price level
+                        if (orderList.isEmpty()) {
+                            priceLevelIterator.remove();
+                        }
+                        return order; // Return the deleted order
+                    }
+                }
+            }
+        }
 		return null; // If no order with the specified order Id was found then return null.
 	}
 	
@@ -109,11 +116,36 @@ public class OrderBook {
 		return result; // Return the list of orders
 	}
 	
+	@Override
 	public String toString() {
-		return "Orderbook {" + 
-			   "buyOrders=" + buyOrders +
-			   ", sellOrders= " + sellOrders +
-			   "}";
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("OrderBook:\n");
+	    
+	    sb.append("Buy Orders:\n");
+	    if (buyOrders.isEmpty()) {
+	        sb.append("  None\n");
+	    } else {
+	        for (Map.Entry<Double, LinkedList<Order>> entry : buyOrders.entrySet()) {
+	            sb.append(String.format("  Price: %.2f\n", entry.getKey()));
+	            for (Order order : entry.getValue()) {
+	                sb.append("    ").append(order).append("\n");
+	            }
+	        }
+	    }
+	    
+	    sb.append("Sell Orders:\n");
+	    if (sellOrders.isEmpty()) {
+	        sb.append("  None\n");
+	    } else {
+	        for (Map.Entry<Double, LinkedList<Order>> entry : sellOrders.entrySet()) {
+	            sb.append(String.format("  Price: %.2f\n", entry.getKey()));
+	            for (Order order : entry.getValue()) {
+	                sb.append("    ").append(order).append("\n");
+	            }
+	        }
+	    }
+	    
+	    return sb.toString();
 	}
 }	
 	

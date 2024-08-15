@@ -10,9 +10,9 @@ import java.util.UUID;
 public class Order {
 	private final String id;
 	private final OrderSide side;
-	private final double price;
-	private int quantity;
-	private final long timestamp;
+	private double price; // This can be updated if the order is modified
+	private double quantity; // This can be updated if the order is modified
+	private long timestamp; // This will be reset if either the price or quantity is modified to reset priority
 	
 	/**
 	 * 
@@ -29,10 +29,9 @@ public class Order {
 	}
 	
 	/**
-	 * Getters for the respective fields above
-	 * Because a TreeMap data structure is being used, no setters will be necessary
-	 * This is because when an order is to be modified, the order will be removed from the
-	 * order book and re-added with an updated timestamp to enforce integrity of the order book priority
+	 * Getters and setters for the respective fields above.
+	 * Modifying price or quantity is allowed, but in either case the timestamp will be updated.
+	 * This updated timestamp resets the priority enforces order book integrity.
 	 */
 	public String getId() {
 		return id;
@@ -46,9 +45,19 @@ public class Order {
 		return price;
 	}
 	
-	public int getQuantity() {
+    public void setPrice(double price) {
+        this.price = price; // Allow modification of the order's price
+        this.timestamp = System.nanoTime(); // Resets the timestamp to reset the order priority
+    }
+	
+	public double getQuantity() {
 		return quantity;
 	}
+	
+    public void setQuantity(double quantity) {
+        this.quantity = quantity; // Allow modification of the order's quantity
+        this.timestamp = System.nanoTime(); // Resets the timestamp to reset the order priority
+    }
 	
 	public long getTimestamp() {
 		return timestamp;

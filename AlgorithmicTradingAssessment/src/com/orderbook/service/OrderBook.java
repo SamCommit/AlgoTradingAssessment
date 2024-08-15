@@ -53,10 +53,10 @@ public class OrderBook {
 	 * @param newQuantity
 	 * @param price
 	 */
-	public void modifyOrder(String orderId, double newQuantity, double price) {
+	public void modifyOrder(String orderId, double newQuantity, double newPrice) {
 		Order order = deleteOrder(orderId);
 		if (order != null) {
-			order.setPrice(newQuantity); //Set the new price of the order and reset the priority timestamp (See Order Class)
+			order.setPrice(newPrice); //Set the new price of the order and reset the priority timestamp (See Order Class)
 			order.setQuantity(newQuantity); //Set the new quantity of the order and reset the priority timestamp (See Order Class)
 			addOrder(order);
 		}

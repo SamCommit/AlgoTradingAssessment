@@ -3,6 +3,7 @@ package com.orderbook;
 import com.orderbook.model.Order;
 import com.orderbook.model.OrderSide;
 import com.orderbook.service.OrderBook;
+import test.com.orderbook.OrderBookTest;
 
 /**
  * Main class to test the functionality of the OrderBook Class and its dependencies
@@ -32,21 +33,31 @@ public class Main {
         orderBook.addOrder(order6);
         orderBook.addOrder(order7);
         orderBook.addOrder(order8);
+        
+        // Run the add orders test
+        OrderBookTest.testAddOrder(orderBook);
 
         // Print the order book current order book
         System.out.println("Order book after adding orders:");
         System.out.println(orderBook);
+        
 
         // Change the quantity of the first order (order1)
         orderBook.modifyOrder(order1.getId(), 15);
+        
+        // Run the modify order test
+        OrderBookTest.testModifyOrder(orderBook, order1);
 
         // Print the order book after modification, order1 should have a new timestamp
         System.out.println("Order book after modifying order1 (Buy order at R100 for 10 units) (new quantity: 15):");
         System.out.println(orderBook);
-
+        
         // Delete the second order (order2)
         orderBook.deleteOrder(order2.getId());
 
+        // Run the delete order test
+        OrderBookTest.testDeleteOrder(orderBook, order2);
+        
         // Print the order book after deleting order2
         System.out.println("Order book after deleting order2 (Sell order at R101 for 5 units):");
         System.out.println(orderBook);
@@ -59,8 +70,11 @@ public class Main {
         System.out.println("Order book after adding order9 (Buy order at R99 for 25 units):");
         System.out.println(orderBook);
         
+        // Run the order priority test
+        OrderBookTest.testOrderPriority(orderBook, order3);
+        
         // Change the quantity of the third order (order3)
-        orderBook.modifyOrder(order3.getId(), 30);
+        orderBook.modifyOrder(order3.getId(), order3.getQuantity() + 10);
 
         // Print the order book after modification, order3 should now have a lower priority than order9
         System.out.println("Order book after modifying order3 (new quantity: 30), priority should be lower:");

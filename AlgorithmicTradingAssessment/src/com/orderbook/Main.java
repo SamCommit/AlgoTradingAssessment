@@ -37,11 +37,11 @@ public class Main {
         System.out.println("Order book after adding orders:");
         System.out.println(orderBook);
 
-        // Change the quantity and price of the first order (order1)
-        orderBook.modifyOrder(order1.getId(), 15, 98.0);
+        // Change the quantity of the first order (order1)
+        orderBook.modifyOrder(order1.getId(), 15);
 
         // Print the order book after modification, order1 should have a new timestamp
-        System.out.println("Order book after modifying order1 (new quantity: 15, new price: R98.0):");
+        System.out.println("Order book after modifying order1 (Buy order at R100 for 10 units) (new quantity: 15):");
         System.out.println(orderBook);
 
         // Delete the second order (order2)
@@ -59,11 +59,11 @@ public class Main {
         System.out.println("Order book after adding order9 (Buy order at R99 for 25 units):");
         System.out.println(orderBook);
         
-        // Change the quantity and price of the third order (order3)
-        orderBook.modifyOrder(order3.getId(), 30, 99.0);
+        // Change the quantity of the third order (order3)
+        orderBook.modifyOrder(order3.getId(), 30);
 
         // Print the order book after modification, order3 should now have a lower priority than order9
-        System.out.println("Order book after modifying order3 (new quantity: 30, same price: 99.0), priority should be lower:");
+        System.out.println("Order book after modifying order3 (new quantity: 30), priority should be lower:");
         System.out.println(orderBook);
     }
 }

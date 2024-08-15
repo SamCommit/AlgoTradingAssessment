@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Order {
 	private final String id;
 	private final OrderSide side;
-	private double price; // This can be updated if the order is modified
+	private final double price; // This cannot be updated if the order is modified
 	private double quantity; // This can be updated if the order is modified
 	private long timestamp; // This will be reset if either the price or quantity is modified to reset priority
 	
@@ -29,8 +29,8 @@ public class Order {
 	}
 	
 	/**
-	 * Getters and setters for the respective fields above.
-	 * Modifying price or quantity is allowed, but in either case the timestamp will be updated.
+	 * Getters and setter for the respective fields above.
+	 * Modifying quantity is allowed, and the timestamp will be updated.
 	 * This updated timestamp resets the orders' priority (to lowest) and enforces order book integrity.
 	 */
 	public String getId() {
@@ -44,11 +44,6 @@ public class Order {
 	public double getPrice() {
 		return price;
 	}
-	
-    public void setPrice(double price) {
-        this.price = price; // Allow modification of the order's price
-        this.timestamp = System.nanoTime(); // Resets the timestamp to reset the order priority
-    }
 	
 	public double getQuantity() {
 		return quantity;

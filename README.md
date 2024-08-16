@@ -4,7 +4,7 @@
 
 ## Overview
 
-This first part of the assessment implemented the basic framework for an LOB. The basic functions include the ability add, delete and modify orders from the orderbook. Each order has a priority based on its timestamp of creation. Orders are placed in a FIFO (First-In, First-Out) queue. A key specification that was met in the modify order function is that the priority of each order should be reset to lowest priority if an order is modified. The orderbook was implemented with efficiency in mind, ensuring the functions are performed optimally.
+This bojective of this first part of the assessment was to implemented the basic framework for an LOB. The basic functions include the ability add, delete and modify orders, as well as creating the underlying framework (the models) for the order book. Each order has a priority based on its timestamp of creation. Orders are placed in a FIFO (First-In, First-Out) queue. A key specification that was met in the modify order function is that the priority of each order should be reset to lowest priority if an order is modified. The orderbook was implemented with efficiency in mind, ensuring the functions are performed optimally.
 
 To run the demontration code, compile the project and run the src/com/orderbook/Main.java file.
 
@@ -31,7 +31,9 @@ The efficiency mechanisms were chosen for this project based on the high workloa
 1. **Design**: The order books design is modular where each component (Order, OrderSide, OrderType and OrderBook) is defined uniquely for expansion on the project and ease of maintenance.
 2. **Priority Management**: Priority is managed using timestamps on the Order object level, ensuring that orders with the same price are executed in the order they were added and that order book integrity is maintained. Modifications to orders reset their timestamps at the order Object level, ensuring they lose priority.
 3. **Efficiency**: The use of TreeMap and LinkedList are the key efficiency mechanisms in this project
-   
+
+### Components:
+
 ### Order
 
 The Order object describes a single order in the LOB. Each order has the following attributes:

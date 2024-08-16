@@ -47,7 +47,7 @@ public class OrderBook {
 	 * 2. Create a new order with the new quantity (this resets the priority)
 	 * 3. Re-add the order back to the order book with a lowest priority due to modifying
 	 * 
-	 * This modifyOrder
+	 * This modifyOrder function is O(n) complexity as it must complete a delete in it functionality
 	 * 
 	 * @param orderId
 	 * @param newQuantity

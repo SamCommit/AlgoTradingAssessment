@@ -45,22 +45,21 @@ public class Main {
         System.out.println("Order book after adding orders:");
         System.out.println(orderBook);
         
-
+        // Run the modify order test
+        OrderBookTest.testModifyOrder(orderBook, order1);
+        
         // Change the quantity of the first order (order1)
         orderBook.modifyOrder(order1.getId(), 15);
-        
-        // Run the modify order test
-        OrderBookTest.testModifyOrder(orderBook, order2);
 
         // Print the order book after modification, order1 should have a new timestamp
         System.out.println("Order book after modifying order1 (Buy order at R100 for 10 units) (new quantity: 15):");
         System.out.println(orderBook);
         
+        // Run the delete order test
+        OrderBookTest.testDeleteOrder(orderBook, order4);
+        
         // Delete the second order (order2)
         orderBook.deleteOrder(order2.getId());
-
-        // Run the delete order test
-        OrderBookTest.testDeleteOrder(orderBook, order2);
         
         // Print the order book after deleting order2
         System.out.println("Order book after deleting order2 (Sell order at R101 for 5 units):");

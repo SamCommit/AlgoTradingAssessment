@@ -39,13 +39,13 @@ public class OrderBookTest {
         
         // Verify that orders have been added correctly
         if (finalBuySize == initialBuySize + 1 && finalSellSize == initialSellSize + 1) {
-            System.out.println("\n=======================");
+            System.out.println("\n=============================");
             System.out.println("1. Add Orders Test PASSED");
-            System.out.println("=======================\n");
+            System.out.println("=============================\n");
         } else {
-        	System.out.println("\n=======================");
+        	System.out.println("\n=============================");
             System.out.println("1. Add Orders Test FAILED");
-            System.out.println("=======================\n");
+            System.out.println("=============================\n");
         }
     }
     
@@ -70,13 +70,13 @@ public class OrderBookTest {
         // Assert that the order's quantity has been updated
         if (orderBook.getOrders(order.getSide()).stream()
                 .anyMatch(o -> o.getId().equals(order.getId()) && o.getQuantity() == newQuantity)) {
-            System.out.println("\n=========================");
+            System.out.println("\n===============================");
             System.out.println("2. Modify order test PASSED");
-            System.out.println("=========================\n");
+            System.out.println("===============================\n");
         } else {
-            System.out.println("\n=========================");
+            System.out.println("\n===============================");
             System.out.println("2. Modify order test FAILED");
-            System.out.println("=========================\n");
+            System.out.println("===============================\n");
         }
     }
     
@@ -89,13 +89,13 @@ public class OrderBookTest {
     public static void testDeleteOrder(OrderBook orderBook, Order order) {
         // Verify that the order has been deleted
         if (orderBook.getOrders(OrderSide.SELL).stream().noneMatch(o -> o.getId().equals(order.getId()))) {
-            System.out.println("\n=========================");
+            System.out.println("\n===============================");
             System.out.println("3. Delete order test PASSED");
-            System.out.println("=========================\n");
+            System.out.println("===============================\n");
         } else {
-            System.out.println("\n=========================");
+            System.out.println("\n===============================");
             System.out.println("3. Delete order test FAILED");
-            System.out.println("=========================\n");
+            System.out.println("===============================\n");
         }
     }
 
@@ -123,9 +123,9 @@ public class OrderBookTest {
 
         // Check the is not already last in the list
         if (ordersAtPriceLevel.getLast().getId().equals(order.getId())) {
-            System.out.println("\n===================================================================================");
+            System.out.println("\n=========================================================================================");
             System.out.println("4. Order priority modification test inconclusive. Order is already last in priority. ");
-            System.out.println("===================================================================================\n");
+            System.out.println("=========================================================================================\n");
             return;
         }
 
@@ -139,13 +139,13 @@ public class OrderBookTest {
 
         // Assert that the modified order is now the the lowest priority at that price level
         if (ordersAtPriceLevel.getLast().getId().equals(order.getId())) {
-            System.out.println("\n==========================================================================");
+            System.out.println("\n================================================================================");
             System.out.println("4. Order priority test PASSED: Order is last in the list at its price level.");
-            System.out.println("==========================================================================\n");
+            System.out.println("================================================================================\n");
         } else {
-            System.out.println("\n=============================================================================");
+            System.out.println("\n===================================================================================");
             System.out.println("4. Order priority test FAILED: Order isn't last in the list at its price level.");
-            System.out.println("=============================================================================\n");
+            System.out.println("===================================================================================\n");
         }
     }
 }

@@ -50,7 +50,7 @@ public class Main {
         orderBook.modifyOrder(order1.getId(), 15);
         
         // Run the modify order test
-        OrderBookTest.testModifyOrder(orderBook, order1);
+        OrderBookTest.testModifyOrder(orderBook, order2);
 
         // Print the order book after modification, order1 should have a new timestamp
         System.out.println("Order book after modifying order1 (Buy order at R100 for 10 units) (new quantity: 15):");

@@ -120,7 +120,7 @@ public class OrderBook {
 	    StringBuilder sb = new StringBuilder();
 	    sb.append("OrderBook:\n");
 	    
-	    sb.append("Buy Orders:\n");
+	    sb.append("Buy Orders (Priority highest to lowest):\n");
 	    if (buyOrders.isEmpty()) {
 	        sb.append("  None\n");
 	    } else {
@@ -132,7 +132,7 @@ public class OrderBook {
 	        }
 	    }
 	    
-	    sb.append("Sell Orders:\n");
+	    sb.append("Sell Orders (Priority highest to lowest):\n");
 	    if (sellOrders.isEmpty()) {
 	        sb.append("  None\n");
 	    } else {

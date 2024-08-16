@@ -4,7 +4,9 @@
 
 ## Overview
 
-This first part of the assessment implemented the basic framework for an LOB. The basic functions include the ability add, delete and modify orders from the orderbook. Each order has a priority based on its timestamp of creation. Orders are placed in a FIFO (First-In, First-Out) queue. A key specification that was met in the modify order function is that the priority of each order should be reset to lowest priority if an order is modified. The orderbook was implemented with efficiency in mind, ensuring the functions are performed optimally
+This first part of the assessment implemented the basic framework for an LOB. The basic functions include the ability add, delete and modify orders from the orderbook. Each order has a priority based on its timestamp of creation. Orders are placed in a FIFO (First-In, First-Out) queue. A key specification that was met in the modify order function is that the priority of each order should be reset to lowest priority if an order is modified. The orderbook was implemented with efficiency in mind, ensuring the functions are performed optimally.
+
+To run the demontration code, compile the project and run the src/com/orderbook/Main.java file.
 
 ## Project Structure
 

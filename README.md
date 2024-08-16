@@ -24,7 +24,7 @@ The efficiency mechanisms were chosen for this project based on the high workloa
 
 ## b. Solution approach
 
-## Solution Approach
+### Solution Approach
 
 1. **Design**: The order books design is modular where each component (Order, OrderSide, OrderType and OrderBook) is defined uniquely for expansion on the project and ease of maintenance.
 2. **Priority Management**: Priority is managed using timestamps on the Order object level, ensuring that orders with the same price are executed in the order they were added and that order book integrity is maintained. Modifications to orders reset their timestamps at the order Object level, ensuring they lose priority.

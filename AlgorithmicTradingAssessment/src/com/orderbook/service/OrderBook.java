@@ -18,10 +18,10 @@ import java.util.TreeMap;
  */
 public class OrderBook {
 	// TreeMap that stores the buy orders, sorted by price from highest to lowest. 
-	private final Map<Double, LinkedList<Order>> buyOrders = new TreeMap<>(Collections.reverseOrder());
+	private final TreeMap<Double, LinkedList<Order>> buyOrders = new TreeMap<>(Collections.reverseOrder());
 	
 	// TreeMap that stores the sell orders, sorted by price from lowest to highest. 
-	private final Map<Double, LinkedList<Order>> sellOrders = new TreeMap<>();
+	private final TreeMap<Double, LinkedList<Order>> sellOrders = new TreeMap<>();
 
 	/**
 	 * Add an order to the order book:
@@ -35,7 +35,7 @@ public class OrderBook {
 	 */
 	public void addOrder(Order order) { // Adding an order is 
 		// Determine if the order is a buy or sell order
-		Map<Double, LinkedList<Order>> orders = order.getSide() == OrderSide.BUY ? buyOrders : sellOrders;
+		TreeMap<Double, LinkedList<Order>> orders = order.getSide() == OrderSide.BUY ? buyOrders : sellOrders;
 		
 		// Get the list of orders (if any) at the price level of the order to be added
 		orders.computeIfAbsent(order.getPrice(), k -> new LinkedList<>()).add(order);
@@ -72,41 +72,40 @@ public class OrderBook {
 	 * This deleteOrder method is O(n) complexity because each orderId needs to be checked as it's a UUID
 	 * 
 	 * @param orderId
-	 * @return
+	 * @return The deleted order if success or null if failed
 	 */
 	public Order deleteOrder(String orderId) {
-        for (Map<Double, LinkedList<Order>> orders : Arrays.asList(buyOrders, sellOrders)) {
-            for (Iterator<Map.Entry<Double, LinkedList<Order>>> priceLevelIterator = orders.entrySet().iterator(); priceLevelIterator.hasNext(); ) {
-                Map.Entry<Double, LinkedList<Order>> priceLevel = priceLevelIterator.next();
-                LinkedList<Order> orderList = priceLevel.getValue();    
-                for (Iterator<Order> orderIterator = orderList.iterator(); orderIterator.hasNext(); ) {
-                    Order order = orderIterator.next();
-                    if (order.getId().equals(orderId)) {
-                        orderIterator.remove(); // Remove the order from the list
-                        // If the list is now empty, remove the price level
-                        if (orderList.isEmpty()) {
-                            priceLevelIterator.remove();
-                        }
-                        return order; // Return the deleted order
-                    }
-                }
-            }
-        }
-		return null; // If no order with the specified order Id was found then return null.
+	    for (TreeMap<Double, LinkedList<Order>> orders : Arrays.asList(buyOrders, sellOrders)) {
+	        for (Map.Entry<Double, LinkedList<Order>> priceLevel : orders.entrySet()) {
+	            LinkedList<Order> orderList = priceLevel.getValue();
+	            for (Iterator<Order> orderIterator = orderList.iterator(); orderIterator.hasNext(); ) {
+	                Order order = orderIterator.next();
+	                if (order.getId().equals(orderId)) {
+	                    orderIterator.remove(); // Remove the order from the list
+	                    // If the list is now empty, remove the price level
+	                    if (orderList.isEmpty()) {
+	                        orders.remove(priceLevel.getKey());
+	                    }
+	                    return order; // Return the deleted order
+	                }
+	            }
+	        }
+	    }
+	    return null; // If no order with the specified order Id was found, return null.
 	}
 	
 	/**
 	 * Get the orders for the order book:
 	 * 1. Select the buy or sell side of the order book.
-	 * 2. Return a list of the orders from the respective side.
+	 * 2. Returns a flattened list of the orders from the respective side.
 	 * 
 	 * This getOrders method is O(n) complexity because it returns all orders in the list
 	 * 
 	 * @param side
-	 * @return
+	 * @return A List of the order book for the specified side
 	 */
 	public List<Order> getOrders(OrderSide side){
-		Map<Double, LinkedList<Order>> orders = side == OrderSide.BUY ? buyOrders : sellOrders;
+		TreeMap<Double, LinkedList<Order>> orders = side == OrderSide.BUY ? buyOrders : sellOrders;
 		
 		List<Order> result = new ArrayList<>(); // Instantiate an ArrayList to store all the orders
 		for (LinkedList<Order> orderList : orders.values()) {
@@ -115,6 +114,18 @@ public class OrderBook {
 		return result; // Return the list of orders
 	}
 	
+	/**
+	 * Return the TreeMap of the orders for either side of the book
+	 * 
+	 * This method is used in the matching engine for efficient order matching
+	 * 
+	 * @param side (BUY/SELL)
+	 * @return A TreeMap of the order book for the specified side
+	 */
+	public TreeMap<Double, LinkedList<Order>> getOrderMap(OrderSide side) {
+        return side == OrderSide.BUY ? (TreeMap<Double, LinkedList<Order>>) buyOrders : (TreeMap<Double, LinkedList<Order>>) sellOrders;
+    }
+
 	@Override
 	public String toString() {
 	    StringBuilder sb = new StringBuilder();
@@ -149,7 +160,7 @@ public class OrderBook {
 }	
 	
 	
-	
+
 	
 	
 	

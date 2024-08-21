@@ -87,14 +87,17 @@ public class OrderBookTest {
      * @param order
      */
     public static void testDeleteOrder(OrderBook orderBook, Order order) {
-        // Verify that the order has been deleted
-        if (orderBook.getOrders(OrderSide.SELL).stream().noneMatch(o -> o.getId().equals(order.getId()))) {
+        // Perform the deletion
+        orderBook.deleteOrder(order.getId());
+
+        // Verify that the order has been deleted from the order book
+        if (orderBook.getOrders(order.getSide()).stream().noneMatch(o -> o.getId().equals(order.getId()))) {
             System.out.println("\n===============================");
             System.out.println("3. Delete order test PASSED");
             System.out.println("===============================\n");
         } else {
             System.out.println("\n===============================");
-            System.out.println("3. Delete order test FAILED");
+            System.out.println("3. Delete order test FAILED: Order still exists in the order book.");
             System.out.println("===============================\n");
         }
     }
@@ -132,7 +135,7 @@ public class OrderBookTest {
         // Modify the order's quantity which will trigger a priority reset (new timestamp)
         orderBook.modifyOrder(order.getId(), order.getQuantity() + 10);
 
-        // RGet the updated list of orders at the price level
+        // Get the updated list of orders at the price level
         ordersAtPriceLevel = orderBook.getOrders(OrderSide.BUY).stream()
                 .filter(o -> o.getPrice() == priceLevel)
                 .collect(Collectors.toCollection(LinkedList::new));
@@ -148,4 +151,53 @@ public class OrderBookTest {
             System.out.println("===================================================================================\n");
         }
     }
+    
+    public static void main(String[] args) {
+        OrderBook orderBook = new OrderBook();
+
+        // Create some orders to use in tests
+        Order buyOrder1 = new Order(OrderSide.BUY, 100.0, 10);   // Buy order at R100 for 10 units
+        Order buyOrder2 = new Order(OrderSide.BUY, 99.5, 20);    // Buy order at R99.5 for 20 units
+        Order sellOrder1 = new Order(OrderSide.SELL, 105.0, 5);  // Sell order at R105 for 5 units
+        Order sellOrder2 = new Order(OrderSide.SELL, 104.0, 15); // Sell order at R104 for 15 units
+
+        // Add the initial orders to the order book
+        orderBook.addOrder(buyOrder1);
+        orderBook.addOrder(buyOrder2);
+        orderBook.addOrder(sellOrder1);
+        orderBook.addOrder(sellOrder2);
+
+        // Run the add orders test
+        System.out.println("\nOrder book before Add Orders Test:");
+        System.out.println(orderBook);
+        OrderBookTest.testAddOrder(orderBook);
+        System.out.println("Order book after Add Orders Test:");
+        System.out.println(orderBook);
+
+        // Run the modify order test
+        System.out.println("\nOrder book before Modify Order Test:");
+        System.out.println(orderBook);
+        OrderBookTest.testModifyOrder(orderBook, buyOrder1);
+        System.out.println("Order book after Modify Order Test:");
+        System.out.println(orderBook);
+
+        // Run the delete order test
+        System.out.println("\nOrder book before Delete Order Test:");
+        System.out.println(orderBook);
+        OrderBookTest.testDeleteOrder(orderBook, sellOrder1);
+        System.out.println("Order book after Delete Order Test:");
+        System.out.println(orderBook);
+
+        // Add another order and demonstrate that the priority is lower than the other orders at the same price
+        Order buyOrder3 = new Order(OrderSide.BUY, 100.0, 25);
+        orderBook.addOrder(buyOrder3);
+
+        // Run the order priority test
+        System.out.println("\nOrder book before Order Priority Test:");
+        System.out.println(orderBook);
+        OrderBookTest.testOrderPriority(orderBook, buyOrder1);
+        System.out.println("Order book after Order Priority Test:");
+        System.out.println(orderBook);
+    }
+    
 }

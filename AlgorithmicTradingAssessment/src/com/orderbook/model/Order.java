@@ -12,7 +12,7 @@ public class Order {
 	private final OrderSide side;
 	private final double price; // This cannot be updated if the order is modified
 	private double quantity; // This can be updated if the order is modified
-	private long timestamp; // This will be reset if either the price or quantity is modified to reset priority
+	private long timestamp; // This will be reset if either the quantity is modified to reset priority
 	
 	/**
 	 * 

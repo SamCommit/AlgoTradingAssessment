@@ -20,7 +20,7 @@ public class MatchingEngine{
 	}
 	
 	/**
-	 * Process an incomming order and try to match it with orders in the opposite side of the order book
+	 * Process an incoming order and try to match it with orders in the opposite side of the order book
 	 * 
 	 * @param newOrder Is the new order to be processed
 	 */
@@ -37,7 +37,11 @@ public class MatchingEngine{
 	 * 
 	 * 1. Iterate through orders on the opposite side of the order book
 	 * 2. Check if the price is acceptable for the incoming order
-	 * 3. 
+	 * 3. Get the list of orders at this price-range
+	 * 4. Loop through all orders at this price range
+	 * 5. Match the buy and sell orders by their minimum quantity
+	 * 6. Remove any fully filled orders
+	 * 7. Break out of the while loop if matching is no longer possible
 	 * 
 	 * @param newOrder The order to be matched
 	 * @param oppositeOrders A TreeMap of the opposite side of the order book

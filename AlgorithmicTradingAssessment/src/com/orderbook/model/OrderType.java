@@ -6,6 +6,7 @@ package com.orderbook.model;
  * A market order should be executed immediately at the best possible price.
  */
 public enum OrderType {
-    LIMIT, // Limit order, used in this assignment
-    MARKET; // Market order, used For future expansion on this assignment
+    LIMIT, // Limit order, used in this assignment.
+    MARKET, // Market order, used in potential future expansion.
+	STOP; // Stop order, used in potential future expansion.
 }

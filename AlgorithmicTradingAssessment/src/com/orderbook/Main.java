@@ -95,12 +95,12 @@ public class Main {
         System.out.println(orderBook);
         
 
-        System.out.println("=====================");
+        System.out.println("=======================");
         System.out.println(" __      __ ___   __ ");
         System.out.println("|__) /\\ |__) |    __|");
         System.out.println("|   /--\\| \\  |   |__ ");
         System.out.println("                     ");
-        System.out.println("=====================");
+        System.out.println("=======================");
         System.out.println("                     ");
         
 

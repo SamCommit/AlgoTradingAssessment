@@ -6,8 +6,8 @@ import com.orderbook.service.MatchingEngine;
 import com.orderbook.service.OrderBook;
 
 /**
- * The MatchingEngineTest class contains manual methods to validate the functionality of the MatchingEngine.
- * Each method prints "PASSED" or "FAILED" depending on the outcome of the test.
+ * The MatchingEngineTest class has manual methods to validate the functionality of the matching engine.
+ * Each method prints "PASSED" or "FAILED" depending to indicate outcome of the test.
  * JUnit would've been used for the unit tests but that would not have complied with the assessment instructions.
  */
 public class MatchingEngineTest {
@@ -15,7 +15,7 @@ public class MatchingEngineTest {
     /**
      * This function validates whether the MatchingEngine correctly processes a sell order.
      * 
-     * 1. Add some initial buy orders to the order book.
+     * 1. Add some buy orders to the order book.
      * 2. Process a sell order that should match with the buy orders.
      * 3. Assert that the order book is updated correctly.
      * 
@@ -23,7 +23,7 @@ public class MatchingEngineTest {
      * @param matchingEngine The matching engine to use.
      */
     public static void testSellOrderMatching(OrderBook orderBook, MatchingEngine matchingEngine) {
-        // Add sopme buy orders, one that will get filled and one that won't
+        // Add some buy orders, one that will get filled and one that won't
         orderBook.addOrder(new Order(OrderSide.BUY, 99.9, 10));   // Buy order at 100 for 10 units
         orderBook.addOrder(new Order(OrderSide.BUY, 99.7, 6));    // Buy order at 99 for 20 units
 
@@ -47,7 +47,7 @@ public class MatchingEngineTest {
     /**
      * This function validates whether the MatchingEngine correctly processes a buy order.
      * 
-     * 1. Add some initial sell orders to the order book.
+     * 1. Add some sell orders to the order book.
      * 2. Process a buy order that should match with the sell orders.
      * 3. Assert that the order book is updated correctly.
      * 
@@ -88,7 +88,7 @@ public class MatchingEngineTest {
     public static void testPartialFill(OrderBook orderBook, MatchingEngine matchingEngine) {
         // Add two buy orders, one that will get filled (100) and one that won't (99.8)
         orderBook.addOrder(new Order(OrderSide.BUY, 100.0, 10));   // Buy order at 100 for 10 units
-        orderBook.addOrder(new Order(OrderSide.BUY, 99.8, 20));    // Buy order at 99 for 20 units
+        orderBook.addOrder(new Order(OrderSide.BUY, 99.8, 20));    // Buy order at 99.8 for 20 units
 
         // Process a new sell order that can only partially fill the first order
         Order newSellOrder = new Order(OrderSide.SELL, 100.0, 25); // Sell order at 100 for 25 units
@@ -107,11 +107,11 @@ public class MatchingEngineTest {
     }
 
     /**
-     * This function validates whether the MatchingEngine correctly adds an unmatched order to the order book.
+     * This function checks whether the MatchingEngine correctly adds an unmatched order to the order book.
      * 
-     * 1. Ensure no orders can match the incoming order.
+     * 1. Add a buy order that has no match on the sell order side.
      * 2. Process the order.
-     * 3. Assert that the order is added to the order book.
+     * 3. Assert that the full order is added to the order book.
      * 
      * @param orderBook The order book to test with.
      * @param matchingEngine The matching engine to use.

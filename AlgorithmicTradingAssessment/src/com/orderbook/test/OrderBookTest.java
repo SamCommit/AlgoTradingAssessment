@@ -20,7 +20,7 @@ public class OrderBookTest {
 	 * 3. Add a sell order
 	 * 4. Check that the buy and sell order sizes are what they were + 1
 	 * 
-	 * @param orderBook
+	 * @param orderBook The order book where the testAddOrder functionality is being tested
 	 */
     public static void testAddOrder(OrderBook orderBook) {
         // Get initial sizes of the buy and sell order queues
@@ -56,8 +56,8 @@ public class OrderBookTest {
 	 * 2. Modify the quantity
 	 * 3. Assert that the quantity has been updated
 	 * 
-	 * @param orderBook
-	 * @param order
+	 * @param orderBook The order book where the testModifyOrder functionality is being tested
+	 * @param order The order to be modified
 	 */
     public static void testModifyOrder(OrderBook orderBook, Order order) {
         // Check the initial quantity of the order
@@ -83,8 +83,8 @@ public class OrderBookTest {
     /**
      * This function validates whether the order has been correctly deleted or not.
      * 
-     * @param orderBook
-     * @param order
+     * @param orderBook The order book where the testDeleteOrder functionality is being tested
+     * @param order The order to be deleted
      */
     public static void testDeleteOrder(OrderBook orderBook, Order order) {
         // Perform the deletion
@@ -112,8 +112,8 @@ public class OrderBookTest {
      * 5. Retrieve the updated list of orders at that price level
      * 6. Assert that the modified order is now lowest priority 
      * 
-     * @param orderBook
-     * @param order
+     * @param orderBook The order book where the testOrderPriority functionality is being tested
+     * @param order The order to be modified
      */
     public static void testOrderPriority(OrderBook orderBook, Order order) {
         // Get the price level of the order
@@ -167,6 +167,11 @@ public class OrderBookTest {
         orderBook.addOrder(sellOrder1);
         orderBook.addOrder(sellOrder2);
 
+        // Run MatchingEngine tests and output the results
+        System.out.println("\n===============================");
+        System.out.println("Running Orderbook Tests...");
+        System.out.println("===============================\n");
+        
         // Run the add orders test
         System.out.println("\nOrder book before Add Orders Test:");
         System.out.println(orderBook);

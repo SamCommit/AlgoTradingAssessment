@@ -15,9 +15,9 @@ This assessment consisted of two parts with two objectives. The initial objectiv
 
 ## Overview
 
-This ojective of this first part of the assessment was to implemented the basic framework for an LOB. The basic functions include the ability add, delete and modify orders, as well as creating the underlying framework (the models) for the order book. Each order has a priority based on its timestamp of creation. Orders are placed in a FIFO (First-In, First-Out) queue. A key specification that was met in the modify order function is that the priority of each order should be reset to lowest priority if an order is modified. The orderbook was implemented with efficiency in mind, ensuring the functions are performed optimally.
+This objective of this first part of the assessment was to implemented the basic framework for an LOB. The basic functions include the ability add, delete and modify orders, as well as creating the underlying framework (the models) for the order book. Each order has a priority based on its timestamp of creation. Orders are placed in a FIFO (First-In, First-Out) queue. A key specification that was met in the modify order function is that the priority of each order should be reset to lowest priority if an order is modified. The orderbook was implemented with efficiency in mind, ensuring the functions are performed optimally.
 
-To run the demontration code, compile the project and run the *src/com/orderbook/Main.java* main method. To run only the order book tests, compile and run only the *src\com\orderbook\test\OrderBookTest.java* main method.
+To run the demonstration code, compile the project and run the *src/com/orderbook/Main.java* main method. To run only the order book tests, compile and run only the *src\com\orderbook\test\OrderBookTest.java* main method.
 
 ## a. Efficiency Mechanisms
 
@@ -91,11 +91,11 @@ To run the demontration code, compile the project and run the *src/com/orderbook
 
 Once again, the efficiency mechanisms chosen for Part II of this project are based on the forecasted high workload of all matching functions.
 
-- Again, a crucial mechanisms chosen for efficiency is the **TreeMap<Double, LinkedList<Order>>** for storing orders at different price levels, due to its efficient assurance of price-level sorting, unlike a HashMap or PriorityQueue which would require the complexity of additional sorting. This is critical for the matching engine functionality as the price level-sorting allows us to terminate matching iteration when the price falls outside of the prices possible for matching. It also ensures that the matching is always done on the correct orders on the opposite side of the orderbook.
+- Again, a crucial mechanism chosen for efficiency is the **TreeMap<Double, LinkedList<Order>>** for storing orders at different price levels, due to its efficient assurance of price-level sorting, unlike a HashMap or PriorityQueue which would require the complexity of additional sorting. This is critical for the matching engine functionality as the price-level sorting allows us to terminate matching iteration when the price falls outside of the prices possible for matching. It also ensures that the matching is always done on the correct orders on the opposite side of the orderbook.
 
 - The second key mechanism is the **LinkedList** which allows for efficient insertion and removal of orders which is important for partially or fully filled orders requiring frequent updates. Orders are also then processed in a FIFO manner which aligns with the order book rules.
 
-- The third mechanism is efficient matching. The *matchOrder* method iterates through the *TreeMap* at each price level, and then iterates through the list of orders at that price level. The matchOrder method is efficient because is directly accesses the most favorable price levels first dues to the TreeMap data structure and processes the orders linearly at each price level. Termination then occures as soon as matching is no longer possible to ensure no wasted overhead iteration.
+- The third mechanism is efficient matching. The *matchOrder* method iterates through the *TreeMap* at each price level, and then iterates through the list of orders at that price level. The matchOrder method is efficient because is directly accesses the most favorable price levels first due to the TreeMap data structure and processes the orders linearly at each price level. Termination then occurs as soon as matching is no longer possible to ensure no wasted overhead iteration.
 
 ## b. Solution approach
 
@@ -111,12 +111,12 @@ Once again, the efficiency mechanisms chosen for Part II of this project are bas
 
 The MatchingEngine class contains all the methods necessary to match orders and fill or partially fill them from the given orderbook in question.
 
-- **processOrder**: Processes an incoming order and attempts to match it to orders in the opposite side of the order book
-- **matchOrder**: Is the key method which matches incoming orders with the orders in the opposite side of the orderbook by iterating through the orderbook and computing the matching of the appropriate orders efficiently for fully filled and partially filled matches.
+- **processOrder**: is the method which processes an incoming order and attempts to match it to orders in the opposite side of the order book
+- **matchOrder**: is the key method which matches incoming orders with the orders in the opposite side of the orderbook by iterating through the orderbook and computing the matching of the appropriate orders efficiently for fully filled and partially filled matches.
 
 ### MatchingEngineTest
 
-The MatchingEngineTest class has all the requisite methods methods to manually test the functionality of the matching engine:
+The MatchingEngineTest class has all the requisite methods to manually test the functionality of the matching engine:
 1. **testSellOrderMatching**: Validates whether the MatchingEngine correctly processes a sell order.
 2. **testBuyOrderMatching**: Validates whether the MatchingEngine correctly processes a buy order.
 3. **testPartialFill**: Validates whether the MatchingEngine correctly handles a partial fill.
@@ -124,7 +124,7 @@ The MatchingEngineTest class has all the requisite methods methods to manually t
 
 ## c. Data Structures
 
-As mentioned, the two primary data structures once again are the **TreeMap** and the **LinkedList**. The TreeMaps automatic sorting makes it an optimal solution for an order book with high volumes. Within each price level is a LinkedList which allows for efficient insetion, removal and modification which is critical for efficient partial and full matching of orders.
+As mentioned, the two primary data structures once again are the **TreeMap** and the **LinkedList**. The TreeMaps automatic sorting makes it an optimal solution for an order book with high volumes. Within each price level is a LinkedList which allows for efficient insertion, removal and modification which is critical for efficient partial and full matching of orders.
 
 ## Part II Conclusion
 

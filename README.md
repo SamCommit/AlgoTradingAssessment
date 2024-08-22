@@ -1,19 +1,23 @@
 # Algorithmic Trading Assessment - Samuel de Bruyn
 
-# PART I : Limit Order Book (LOB) Implementation
+# Introduction
 
-## Overview
-
-This bojective of this first part of the assessment was to implemented the basic framework for an LOB. The basic functions include the ability add, delete and modify orders, as well as creating the underlying framework (the models) for the order book. Each order has a priority based on its timestamp of creation. Orders are placed in a FIFO (First-In, First-Out) queue. A key specification that was met in the modify order function is that the priority of each order should be reset to lowest priority if an order is modified. The orderbook was implemented with efficiency in mind, ensuring the functions are performed optimally.
-
-To run the demontration code, compile the project and run the src/com/orderbook/Main.java file.
+This assessment consisted of two parts with two objectives. The initial objective was to implement a simple framework for a Limit Order Book (LOB). The second objective was to design and create a simple matching engine to match orders on the buy and sell side of the orderbook. To run the a full demonstration of the assessment. One can compile and run the *src\com\orderbook\Main.java* main method. To test the order book functionality one can compile and run the *src\com\orderbook\test\OrderBookTest.java* main method. Finally to test the matching engine functionality one can compile and run the *src\com\orderbook\test\MatchingEngineTest.java* main method.
 
 ## Project Structure
 
 - **`com.orderbook.model`**: This contains the classes that represent the structure of the order book (Order, OrderSide and OrderType).
-- **`com.orderbook.service`**: This contains the class that manages the order book processes and methods (OrderBook).
-- **`com.orderbook.test`**: This contains the order book test suite, ensuring that all methods in the orderbook are functionally correct.
-- **`com.orderbook`**: This contains the Main class which can be run to demonstrate the order books functionality (and tests it). 
+- **`com.orderbook.service`**: This contains the OrderBook class that manages the order book processes and methods (OrderBook) and now also controls the matching engine class which observes the LOB and takes trade execution actions if they exist (MatchingEngine).
+- **`com.orderbook.test`**: This contains the order book and matching engine test suite, ensuring that all methods in the orderbook and matching engine are functionally correct.
+- **`com.orderbook`**: This contains the Main class which can be run to demonstrate the order book and matching engine functionality (and tests it).
+
+# PART I : Limit Order Book (LOB) Implementation
+
+## Overview
+
+This ojective of this first part of the assessment was to implemented the basic framework for an LOB. The basic functions include the ability add, delete and modify orders, as well as creating the underlying framework (the models) for the order book. Each order has a priority based on its timestamp of creation. Orders are placed in a FIFO (First-In, First-Out) queue. A key specification that was met in the modify order function is that the priority of each order should be reset to lowest priority if an order is modified. The orderbook was implemented with efficiency in mind, ensuring the functions are performed optimally.
+
+To run the demontration code, compile the project and run the *src/com/orderbook/Main.java* main method. To run only the order book tests, compile and run only the *src\com\orderbook\test\OrderBookTest.java* main method.
 
 ## a. Efficiency Mechanisms
 
@@ -52,10 +56,10 @@ The OrderBook class is the heart of the order book which contains the functional
 - **Sell Orders**: These are also stored in a TreeMap and sorted by price from lowest to highest.
 
 The order book supports this functionality:
-- **Add Order**: Adds an order to the specified side of the order book.
-- **Modify Order**: Adjusts the quantity of an existing order, causing it to reset its priority.
-- **Delete Order**: Removes an order from the orderbook book chosen by its ID.
-- **Get Orders**: Retrieves a list of all orders for the specified side of the order book (BUY or SELL).
+- **addOrder**: Adds an order to the specified side of the order book.
+- **modifyOrder**: Adjusts the quantity of an existing order, causing it to reset its priority.
+- **deleteOrder**: Removes an order from the orderbook book chosen by its ID.
+- **getOrders**: Retrieves a list of all orders for the specified side of the order book (BUY or SELL).
 
 ### OrderBookTest
 
@@ -69,6 +73,59 @@ The OrderBookTest class has all the requisite methods methods to manually test t
 
 As mentioned earlier, the two primary data structures used in the LOB are the **TreeMap** and the **Doubly LinkedList**. The TreeMap is used to store orders by their price level, automatically sorting the prices on the BUY and SELL side. TreeMap enables an efficiency of O(log P) for order insertion and retrieval, with P being the number of price levels. Within each price level is a Doubly Linked List which is used to manage the orders, it allows for O(1) complexity for insertion, deletion and re-ordering of orders. The combination of these two data types ensures optimal handling of all functionality in the orderbook to maintain a robust, highly efficient order book.
 
-## Conclusion
+## Part 1 Conclusion
 
-This project implements an efficient and simple framework for a LOB which is maintainable and expandable (think market orders, stop orders and integration with matching engines). The chosen data structures ensure the system is highly performant under stress. The unit tests written ensure that expansion the system will not affect its desired functionality and the code-base will retain its integrity and maintainability.
+This part implements an efficient and simple framework for a LOB which is maintainable and expandable (think market orders, stop orders and integration with matching engines). The chosen data structures ensure the system is highly performant under stress. The unit tests written ensure that expansion the system will not affect its desired functionality and the code-base will retain its integrity and maintainability.
+
+# PART II : Matching Engine Implementation
+
+## Overview
+
+This ojective of this second part of the assessment was to design and create a simple matching engine to match orders on the buy and sell side of the orderbook. The basic functions include matching buy orders, matching sell orders and partially matching orders on both sides of the order book. The matching engine observes the LOB and takes any trade execution actions if they exist. One of the key specifications met is that orders should be executed in the correct priority.
+
+To run the demontration code, compile the project and run the *src/com/orderbook/Main.java* main method. To run only the matching engine tests, compile and run only the *src\com\orderbook\test\MatchingEngineTest.java* main method.
+
+## a. Efficiency Mechanisms
+
+### Data Structures
+
+Once again, the efficiency mechanisms chosen for Part II of this project are based on the forecasted high workload of all matching functions.
+
+- Again, a crucial mechanisms chosen for efficiency is the **TreeMap<Double, LinkedList<Order>>** for storing orders at different price levels, due to its efficient assurance of price-level sorting, unlike a HashMap or PriorityQueue which would require the complexity of additional sorting. This is critical for the matching engine functionality as the price level-sorting allows us to terminate matching iteration when the price falls outside of the prices possible for matching. It also ensures that the matching is always done on the correct orders on the opposite side of the orderbook.
+
+- The second key mechanism is the **LinkedList** which allows for efficient insertion and removal of orders which is important for partially or fully filled orders requiring frequent updates. Orders are also then processed in a FIFO manner which aligns with the order book rules.
+
+- The third mechanism is efficient matching. The *matchOrder* method iterates through the *TreeMap* at each price level, and then iterates through the list of orders at that price level. The matchOrder method is efficient because is directly accesses the most favorable price levels first dues to the TreeMap data structure and processes the orders linearly at each price level. Termination then occures as soon as matching is no longer possible to ensure no wasted overhead iteration.
+
+## b. Solution approach
+
+### Solution Approach
+
+1. **Design**: The matching engine design is efficient thanks to the *TreeMap* and *LinkedList* data structures which ensure sorting and efficient, linear access respectively.
+2. **Time complexity**: The TreeMap of the price-levels is O(logP) efficient for inserting new orders and the LinkedList is O(1) efficient for adding, with an overall complexity of O(logP) for adding an order using the *processOrder* method. The *matchOrder* method then has a complexity of O(log(P+N)), P being the price-level and N being the number of orders at that price level. However because the order book is already sorted the efficiency will almost always be near O(1) complexity for execution.
+3. **Efficiency**: The use of TreeMap and LinkedList are once again key efficiency mechanisms in this matching engine. The efficient design and early termination of the *matchOrder* method itself is other key efficiency mechanism.
+
+### Components:
+
+### MatchingEngine
+
+The MatchingEngine class contains all the methods necessary to match orders and fill or partially fill them from the given orderbook in question.
+
+- **processOrder**: Processes an incoming order and attempts to match it to orders in the opposite side of the order book
+- **matchOrder**: Is the key method which matches incoming orders with the orders in the opposite side of the orderbook by iterating through the orderbook and computing the matching of the appropriate orders efficiently for fully filled and partially filled matches.
+
+### MatchingEngineTest
+
+The MatchingEngineTest class has all the requisite methods methods to manually test the functionality of the matching engine:
+1. **testSellOrderMatching**: Validates whether the MatchingEngine correctly processes a sell order.
+2. **testBuyOrderMatching**: Validates whether the MatchingEngine correctly processes a buy order.
+3. **testPartialFill**: Validates whether the MatchingEngine correctly handles a partial fill.
+4. **testUnmatchedOrder**: Validates whether the MatchingEngine correctly adds an unmatched order to the order book.
+
+## c. Data Structures
+
+As mentioned, the two primary data structures once again are the **TreeMap** and the **LinkedList**. The TreeMaps automatic sorting makes it an optimal solution for an order book with high volumes. Within each price level is a LinkedList which allows for efficient insetion, removal and modification which is critical for efficient partial and full matching of orders.
+
+## Part II Conclusion
+
+This part implements an efficient and simple framework for a matching engine which is also expandable to other order types. The chosen data structures ensure the system will perform optimally under heavy order loading. Once again the unit tests written ensure that expansion the system will not affect its desired functionality and the code-base will retain its integrity and maintainability.

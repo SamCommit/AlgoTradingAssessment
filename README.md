@@ -2,7 +2,7 @@
 
 # Introduction
 
-This assessment consisted of two parts with two objectives. The initial objective was to implement a simple framework for a Limit Order Book (LOB). The second objective was to design and create a simple matching engine to match orders on the buy and sell side of the orderbook. To run the a full demonstration of the assessment. One can compile and run the *src\com\orderbook\Main.java* main method. To test the order book functionality one can compile and run the *src\com\orderbook\test\OrderBookTest.java* main method. Finally to test the matching engine functionality one can compile and run the *src\com\orderbook\test\MatchingEngineTest.java* main method.
+This assessment consisted of two parts with two objectives. The initial objective was to implement a simple framework for a Limit Order Book (LOB). The second objective was to design and create a simple matching engine to match orders on the buy and sell side of the orderbook. To run the a full demonstration of the assessment, one can compile and run the *src\com\orderbook\Main.java* main method. To test the order book functionality one can compile and run the *src\com\orderbook\test\OrderBookTest.java* main method. Finally to test the matching engine functionality one can compile and run the *src\com\orderbook\test\MatchingEngineTest.java* main method.
 
 ## Project Structure
 

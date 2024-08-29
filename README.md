@@ -83,7 +83,7 @@ This part implements an efficient and simple framework for a LOB which is mainta
 
 This ojective of this second part of the assessment was to design and create a simple matching engine to match orders on the buy and sell side of the orderbook. The basic functions include matching buy orders, matching sell orders and partially matching orders on both sides of the order book. The matching engine observes the LOB and takes any trade execution actions if they exist. One of the key specifications met is that orders should be executed in the correct priority.
 
-To run the demontration code, compile the project and run the *src/com/orderbook/Main.java* main method. To run only the matching engine tests, compile and run only the *src\com\orderbook\test\MatchingEngineTest.java* main method.
+To run the demontration code, compile the project and run the *src\com\orderbook\Main.java* main method. To run only the matching engine tests, compile and run only the *src\com\orderbook\test\MatchingEngineTest.java* main method.
 
 ## a. Efficiency Mechanisms
 
